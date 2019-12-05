@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %} | Dashboard {% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Dashboard</h1>
+        </div>
+        <h2>My Bookings</h2>
+        <div class="table-responsive">
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Customer ID</th>
+                <th>Package Name</th>
+                <th>Price</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if bookings %}
+                {% for booking in bookings %}
+              <tr>
+
+                <td>{{ booking.id }} </td>
+                <td>{{ booking.customerID }}</td>
+                <td>{{ booking.packageName }}</td>
+                <td>{{ booking.price }}</td>
+                <td>{{ booking.startDate }}</td>
+                <td>{{ booking.endDate }}</td>
+                <td> <a class="btn btn-danger" href="{% url 'removeBooking' booking.id %}">Cancel</a> </td>
+                {% endfor %}
+                {% else %}
+                
+                {% endif %}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+{% endblock %}

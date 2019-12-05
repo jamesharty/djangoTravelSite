@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | Browse Packages {% endblock %}
+
+{% block content %}
+ 
+<section id="showcase-inner" class="py-5 text-black">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h1 class="display-4">Browse All Our Packages</h1>
+          <p class="lead">Take a look at what we have to offer, we hope you find something you like!</p>
+          <h4><a class="p-2 text-dark" href="{% url 'packages' %}">All </a> </h4>
+          <h4><a class="p-2 text-dark" href="{% url 'packagesChina' %}">China</a> <a class="p-2 text-dark" href="{% url 'packagesJapan' %}">Japan</a></h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <div class="container">
+    
+  <div class="card-deck mb-3 text-center">
+      
+    {% if packages %}
+        {% for package in packages %}
+
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+              <h4 class="my-0 font-weight-normal">{{ package.packageName }}</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">€ {{ package.price | intcomma }} </h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>Type: {{ package.type }}</li>
+                <li>Travel Included: {{ package.travelIncluded }}</li>
+                <li>Destination: {{ package.country }}</li>
+                <li><h5>------ Hotel Details ------</h4></li>
+                <li>Hotel: {{ package.hotelName }}</li>
+                <li>Hotel Rating: {{ package.hotelName.rating }}</li>
+                <li>City: {{ package.hotelName.city}}</li>
+                <li><h5>------ Booking Dates ------</h4></li>
+                <li>Start Date: {{ package.startDate }}</li>
+                <li>End Date: {{ package.endDate }}</li>
+                
+              </ul>
+              {% if user.is_authenticated %}
+              <a href="{% url 'checkout' package.id %}" class="btn btn-lg btn-block btn-outline-primary">Get Package</a>
+              {% else %}
+              <a href="#" class="btn btn-lg btn-block btn-outline-primary">Sign Up / Log In To Book</a>
+
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      
+
+        {%  endfor %}
+
+    {% else %}
+          <div class="col-md-12"></div>
+          <p>No listings available</p>
+    {% endif %}
+      </div>
+
+
+      <!--If amount of packages is over 6 add button to go to next page-->
+    <div class="row">
+      <div class="col-md-12">
+
+        {% if packages.has_other_pages %}
+          <ul class="pagination">
+            {% if packages.has_previous %}
+
+            <li class="page-item">
+              <a href="?page={{packages.previous_page_number}}" class="page-link">&laquo;</a>
+            </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">&laquo;</a>
+              </li>
+
+            {% endif %}
+
+            {% for i in packages.paginator.page_range %}
+              {% if packages.number == i %}
+                <li class="page-item active">
+                  <a class="page-link">{{i}}</a>
+                </li>
+              
+              {% else %}
+
+              <li class="page-item">
+                <a href="?page={{i}}" class="page-link">{{i}}</a>
+              </li>
+
+              {% endif %}
+              
+
+            {% endfor %}
+            {% if packages.has_next %}
+
+            <li class="page-item">
+              <a href="?page={{packages.next_page_number}}" class="page-link">&raquo;</a>
+            </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">&raquo;</a>
+              </li>
+
+            {% endif %}
+          </ul>
+
+        {% endif %}
+    </div>
+
+  </div>
+  </div>
+
+{% endblock %}

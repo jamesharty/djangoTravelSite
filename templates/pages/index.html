@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | Browse Packages {% endblock %}
+
+{% block content %}
+
+<section id="showcase-inner" class="py-5 text-black">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h1 class="display-4">Welcome To Simple Travel!</h1>
+          <p class="lead">We hope you can find what youre looking for here!</p>
+          <p class="lead">Here we have some of our best packages, just to peak your interest!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+  <div class="card-deck mb-3 text-center">
+    {% if packages %}
+        {% for package in packages %}
+
+        
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+              <h4 class="my-0 font-weight-normal">{{ package.packageName }}</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">€ {{ package.price | intcomma }} </h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>Type: {{ package.type }}</li>
+                <li>Travel Included: {{ package.travelIncluded }}</li>
+                <li>Destination: {{ package.country }}</li>
+                <li><h5>------ Hotel Details ------</h4></li>
+                <li>Hotel: {{ package.hotelName }}</li>
+                <li>Hotel Rating: {{ package.hotelName.rating }}</li>
+                <li>City: {{ package.hotelName.city}}</li>
+                <li><h5>------ Booking Dates ------</h4></li>
+                <li>Start Date: {{ package.startDate }}</li>
+                <li>End Date: {{ package.endDate }}</li>
+                
+              </ul>
+              {% if user.is_authenticated %}
+              <a href="{% url 'checkout' package.id %}" class="btn btn-lg btn-block btn-outline-primary">Get Package</a>
+              {% else %}
+              <a href="#" class="btn btn-lg btn-block btn-outline-primary">Sign Up / Log In To Book</a>
+
+              {% endif %}
+            </div>
+          </div>
+        
+      
+
+        {%  endfor %}
+
+    {% else %}
+          <div class="col-md-12"></div>
+          <p>No listings available</p>
+    {% endif %}
+  </div>
+  </div>
+
+{% endblock %}

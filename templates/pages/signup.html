@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %} | Signup {% endblock %}
+
+{% block content %}
+<section id="register" class="bg-light py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              <h4>
+                <i class="fas fa-user-plus"></i> Register</h4>
+            </div>
+  
+
+            <div class="card-body">
+    <form method="post">
+        <div class="container">
+      {% csrf_token %}
+      {% for field in form %}
+        <p>
+          {{ field.label_tag }}<br>
+          {{ field }}
+          {% if field.help_text %}
+            <small style="color: grey">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
+        </p>
+      {% endfor %}
+      <button type="submit">Sign up</button>
+    </div>
+    
+    </form>
+  
+  </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+{% endblock %}

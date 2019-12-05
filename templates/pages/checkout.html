@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %} | Checkout {% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+        <div class="col-md-8 order-md-1">
+          <h4 class="mb-3">Customer Details</h4>
+          <form action="{% url 'dashboard' %}" method ="POST" >
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName">First name</label>
+                <input type="text" class="form-control" id="firstName" placeholder=" " value="{{ user.profile.firstName }} " readonly required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="lastName">Last name</label>
+                <input type="text" class="form-control" id="lastName" placeholder="" value="{{ user.profile.lastName  }}" readonly required>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="username">Username</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="username" value="{{ user.username }}" readonly required>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email">Email </label>
+              <input type="email" class="form-control" id="email"  value="{{ user.email }}"readonly> 
+            </div>
+
+            <hr class="mb-4">
+
+            <h4 class="mb-3">Booking Details</h4>
+            <form class="needs-validation" novalidate>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                     <input type="text" class="form-control" name="customerID" placeholder=" " value="{{ user.profile.id }} " readonly required hidden>
+                      <label for="packageName">Package Name</label>
+                      <input type="text" class="form-control" name="packageName" placeholder=" " value="{{ package.packageName }} " readonly required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="price">Cost</label>
+                        €
+                        <input type="text" class="form-control" name="price" placeholder=" " value="{{ package.price }} " readonly required>
+                        
+                      </div>
+                <div class="col-md-6 mb-3">
+                  <label for="startDate">Start Date</label>
+                  <input type="text" class="form-control" name="startDate" placeholder=" " value="{{ package.startDate | date:"Y-m-d" }}" readonly required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="endDate">End Date</label>
+                  <input type="text" class="form-control" name="endDate" placeholder="" value="{{ package.endDate | date:"Y-m-d"  }}" readonly required>
+                </div>
+              </div>
+    
+              <hr class="mb-4">
+
+            <h4 class="mb-3">Payment</h4>
+
+            <div class="d-block my-3">
+              <div class="custom-control custom-radio">
+                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                <label class="custom-control-label" for="credit">Credit card</label>
+              </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="cc-number">Credit card number</label>
+                <input type="text" class="form-control" name="cardNumber" value=" {{ user.profile.cardNumber }}" readonly required>
+              </div>
+            </div>
+            <div class="row">
+            </div>
+            <hr class="mb-4">
+            <input type="submit" value="Purchase" class="btn btn-block brn-secondary">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+    {% endblock %}
+

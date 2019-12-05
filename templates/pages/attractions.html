@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %} | Attractions {% endblock %}
+
+{% block content %}
+
+
+<main role="main">
+
+        <section class="jumbotron text-center">
+          <div class="container">
+            <h1>Top Attractions!</h1>
+            <p class="lead text-muted">Here are some of the top attractions in both Japan And China!</p>
+            <h4><a class="p-2 text-dark" href="{% url 'attractions' %}">All </a> </h4>
+            <h4><a class="p-2 text-dark" href="{% url 'attractionsChina' %}">China</a> <a class="p-2 text-dark" href="{% url 'attractionsJapan' %}">Japan</a></h4>
+
+          </div>
+        </section>            
+        <div class="album py-5 bg-light">
+          <div class="container">
+            <div class="row">
+            {% if attractions %}
+              {% for attraction in attractions %}
+              <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card listing-preview">
+                    <img class="card-img-top" src="{{ attraction.image1.url }}" alt="">
+                    <div class="card-img-overlay">
+                      <h2>
+                        <span class="badge badge-secondary text-white"></span>
+                      </h2>
+                    </div>
+                    <div class="card-body">
+                      <div class="listing-heading text-center">
+                          <h4 class="text-primary">{{ attraction.ranking }}</h4>
+                        <h4 class="text-primary">{{ attraction.attractionName }}</h4>
+                        <p>
+                          <i class="fas fa-map-marker text-secondary"></i> </p>
+                      </div>
+                      <hr>
+                      <div class="row py-2 text-secondary">
+                          {{ attraction.description }}
+                      </div>
+                      <div class="row py-3 text-secondary">
+                        <div class="col-6">
+                          <i class="fas fa-bed"></i> Location: {{ attraction.location }}</div>
+                        <div class="col-6">
+                          <i class="fas fa-bath"></i> Country: {{ attraction.country }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {%  endfor %}
+
+              {% else %}
+                    <div class="col-md-12"></div>
+                    <p>No Attractions available</p>
+              {% endif %}
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+          
+                  {% if attractions.has_other_pages %}
+                    <ul class="pagination">
+                      {% if attractions.has_previous %}
+          
+                      <li class="page-item">
+                        <a href="?page={{attractions.previous_page_number}}" class="page-link">&laquo;</a>
+                      </li>
+                      {% else %}
+                        <li class="page-item disabled">
+                          <a class="page-link">&laquo;</a>
+                        </li>
+          
+                      {% endif %}
+          
+                      {% for i in attractions.paginator.page_range %}
+                        {% if attractions.number == i %}
+                          <li class="page-item active">
+                            <a class="page-link">{{i}}</a>
+                          </li>
+                        
+                        {% else %}
+          
+                        <li class="page-item">
+                          <a href="?page={{i}}" class="page-link">{{i}}</a>
+                        </li>
+          
+                        {% endif %}
+                        
+          
+                      {% endfor %}
+                      {% if attractions.has_next %}
+          
+                      <li class="page-item">
+                        <a href="?page={{attractions.next_page_number}}" class="page-link">&raquo;</a>
+                      </li>
+                      {% else %}
+                        <li class="page-item disabled">
+                          <a class="page-link">&raquo;</a>
+                        </li>
+          
+                      {% endif %}
+                    </ul>
+          
+                  {% endif %}
+              </div>
+          
+            </div>
+          </div>
+        </div>
+      </main>
+
+{% endblock %}
