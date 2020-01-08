@@ -28,7 +28,7 @@ def dashboard(request):
         endDate = request.POST['endDate']
  
         newBooking = Booking(customerID = customerID, packageName = packageName, price=price,startDate=startDate,endDate=endDate)
-        newBooking.save()
+        newBooking.save() 
 
         booking = Booking.objects.order_by('-packageName').filter(customerID=request.user.profile.id)
 
